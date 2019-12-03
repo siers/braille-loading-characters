@@ -4,5 +4,4 @@
     loaders by supplying your own iteration function.
 
 - running
-    # see the kinds in the source
-    ruby braille.rb snake
+    % ./braille.rb $(./braille.rb -l)

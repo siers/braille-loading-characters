@@ -46,15 +46,24 @@ def f(chars, i = 0)
       y << chars[i % chars.length]
       i = yield i, counter
       counter += 1
-      sleep(ENV.fetch('INT', '0.20').to_f)
     end
   end
 end
 
+
+def print(chars)
+  $>.write("\r#{chars} ")
+  $>.flush
+  sleep(ENV.fetch('INT', '0.20').to_f)
+end
+
 def display(enum)
-  enum.each do |char|
-    $>.write("\r#{char} ")
-    $>.flush
+  enum.each(&method(:print))
+end
+
+def displays(enums)
+  loop do
+    print enums.map(&:next).join('   .   ')
   end
 end
 
@@ -73,5 +82,11 @@ if __FILE__ == $0
     'rand-2'    => f(chars, 0) { |i| a = (0..7).to_a.shuffle; i ^ setbit(a.pop) ^ setbit(a.pop) },
   }
 
-  display(animations.fetch(ARGV.first || 'snake'))
+  if ARGV.first =~ /^--list|-l$/
+    puts animations.keys.join(' ')
+    exit
+  end
+
+  selected = (ARGV || ['snake']).map { |a| animations.fetch(a) }
+  displays(selected)
 end
