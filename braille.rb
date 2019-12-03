@@ -46,7 +46,7 @@ def f(chars, i = 0)
     $>.flush
     i = yield i, counter
     counter += 1
-    sleep(ENV.fetch('INT', '0.25').to_f)
+    sleep(ENV.fetch('INT', '0.20').to_f)
   end
 end
 
@@ -62,5 +62,13 @@ if __FILE__ == $0
     f(chars_tr) { |i, count| i + 1 }
   when 'snake'
     f(chars_tr, 3) { |i, c| i ^ setbit(c) ^ setbit(2 + c) }
+  when 'line'
+    f(chars_tr, 1+4+16+64) { |i, c| i ^ setbit(c * 2) ^ setbit(c * 2 + 1) }
+  when 'updown'
+    f(chars_tr, 0) { |i, c| i ^ setbit(c * 2) ^ setbit((7 - c) * 2 + 1) }
+  when 'rand'
+    f(chars, 0) { |i| i ^ setbit(rand(8)) }
+  when 'rand-2'
+    f(chars, 0) { |i| a = (0..7).to_a.shuffle; i ^ setbit(a.pop) ^ setbit(a.pop) }
   end
 end
