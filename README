@@ -1,0 +1,4 @@
+- braille loading characters
+    Unicode has all the braille characters, which gives us all the combinations
+    of the 2x4 dot matrix (full: ⣿). This code can be used to create your own
+    loaders by supplying your own iteration function.
