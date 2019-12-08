@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
 def bit_table
+  # responsible bits in the @chars
   [
     [0, 4],
     [1, 5],
