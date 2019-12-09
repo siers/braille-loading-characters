@@ -5,3 +5,6 @@
 
 - running
     % ./braille.rb $(./braille.rb -l)
+
+- demo
+    https://asciinema.org/a/xCuk0n2GjoC6xwJJeb5iH2rpR
