@@ -76,12 +76,23 @@ if __FILE__ == $0
   animations = {
     'seq'       => f(chars) { |i, count| i + 1 },
     'seq-tr'    => f(chars_tr) { |i, count| i + 1 },
-    'snake'     => f(chars_tr, 3) { |i, c| i ^ setbit(c) ^ setbit(2 + c) },
+    'falls'     => f(chars_tr, 3) { |i, c| i ^ setbit(c) ^ setbit(2 + c) },
     'line'      => f(chars_tr, 1+4+16+64) { |i, c| i ^ setbit(c * 2) ^ setbit(c * 2 + 1) },
     'updown'    => f(chars_tr, 0) { |i, c| i ^ setbit(c * 2) ^ setbit((7 - c) * 2 + 1) },
     'rand'      => f(chars, 0) { |i| i ^ setbit(rand(8)) },
     'rand-2'    => f(chars, 0) { |i| i ^ setbits(*(0..7).to_a.shuffle.take(2)) },
+
+    'snake'     => f(chars, 2+1+16) do |state, c|
+      order = [8, 4, 2, 1, 16, 32, 64, 128]
+      state ^ order[(c + 2) % order.length] ^ order[(c + 5) % order.length]
+    end,
   }
+
+  if ARGV.length == 0
+    puts('usage: braille.rb ANIMATIONS')
+    puts('  see list of animations with -l or --list')
+    exit
+  end
 
   if ARGV.first =~ /^--list|-l$/
     puts animations.keys.join(' ')
